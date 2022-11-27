@@ -1,5 +1,22 @@
 import * as yup from 'yup'
 
+const isNotEmpty = (input: number | undefined): boolean => {
+  if (input !== undefined) {
+    return input > 0
+  } else {
+    return false
+  }
+}
+
+const tipoCursoPessoaValidationError = (name: string) => {
+  return new yup.ValidationError(
+    'Selecione Tipo de Usuário, Curso ou Pessoa.',
+    'null',
+    ${name},
+    'required'
+  )
+}
+
 const refeicaoValidation = yup.object().shape({
   ativo: yup.object(),
   valorDesconto: yup.string().when('ativo', {
@@ -31,5 +48,24 @@ export const AssociacaoValidationSchema = yup.object({
   cafeDaManha: refeicaoValidation,
   lancheDaManha: refeicaoValidation,
   lancheDaTarde: refeicaoValidation,
-  lancheDaNoite: refeicaoValidation
+  lancheDaNoite: refeicaoValidation,
+
+  tipo: yup.array().nullable(),
+  curso: yup.array().nullable(),
+  pessoa: yup.array().nullable()
 })
+// .test('back', function _(value) {
+//   const correctInput = !!(
+//     isNotEmpty(value.tipo?.length) ||
+//     isNotEmpty(value.curso?.length) ||
+//     isNotEmpty(value.pessoa?.length)
+//   )
+//   if (!correctInput) {
+//     return new yup.ValidationError([
+//       tipoCursoPessoaValidationError('tipo'),
+//       tipoCursoPessoaValidationError('curso'),
+//       tipoCursoPessoaValidationError('pessoa')
+//     ])
+//   }
+//   return true
+// })
